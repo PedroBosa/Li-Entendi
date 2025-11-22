@@ -1,3 +1,4 @@
+.controls select, .controls .btn { width: auto }
 :root {
   --primary: #2563eb;
   --secondary: #10b981;
@@ -53,6 +54,21 @@ header {
   max-width: 1200px; margin: 0 auto; padding: .75rem 1rem;
   display: flex; align-items: center; gap: 1rem; justify-content: space-between;
 }
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 10px;
+  padding: .5rem .75rem;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+.menu-toggle[aria-expanded="true"] {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
 .brand { display: flex; align-items: center; gap: .75rem }
 .logo { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center }
 .logo-svg { filter: drop-shadow(0 8px 24px rgba(37,99,235,.25)) }
@@ -62,6 +78,7 @@ header {
 .brand-title { background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: .3px }
 
 .controls { display: flex; align-items: center; gap: .5rem }
+.controls select, .controls .btn { width: auto }
 .input-key { display: flex; align-items: center; gap: .5rem }
 .input-key input { width: 260px }
 
@@ -83,9 +100,19 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem }
 @media (max-width: 640px) {
   body { font-size: 15px }
   .header-inner { flex-direction: column; align-items: stretch; gap: .75rem }
-  .brand { justify-content: space-between }
-  .controls { width: 100%; flex-wrap: wrap; gap: .5rem }
-  .controls > * { flex: 1 1 100% }
+  .brand { justify-content: space-between; width: 100% }
+  .menu-toggle { display: inline-flex; align-self: flex-end }
+  .controls {
+    display: none;
+    flex-direction: column;
+    gap: .5rem;
+    padding: .75rem 1rem 1rem;
+    border-top: 1px solid var(--border);
+    background: rgba(255,255,255,.96);
+  }
+  [data-theme="dark"] .controls { background: rgba(15,23,42,.95) }
+  .controls.open { display: grid }
+  .controls > * { width: 100% }
   .controls select, .controls .btn { width: 100% }
   main { padding: .75rem 1rem 1.5rem }
   .card { padding: var(--space-3); width: 100%; max-width: 100%; }
