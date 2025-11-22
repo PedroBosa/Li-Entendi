@@ -96,6 +96,8 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem }
   .segmented button { flex: 1 1 auto; text-align: center }
   .tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); padding: var(--space-2) 0; margin: 0; position: static; }
   .tab { min-width: 0 }
+  .compare-grid { grid-template-columns: 1fr; grid-auto-rows: auto }
+  .panel { min-height: auto; height: auto }
   #resumoList, #clausulasList, #glossarioList, #atencaoList, #perguntasList { grid-template-columns: 1fr }
   footer { padding: 0 1rem 1.5rem }
 }
@@ -110,7 +112,9 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem }
   gap: var(--space-2);
   align-content: start;
   align-items: start;
+  overflow: hidden;
 }
+.card > * { min-width: 0 }
 .card h2 { font-size: 1.1rem; margin-bottom: var(--space-1) }
 .card h3 small { display: block; color: var(--muted); font-weight: 400; margin-top: .15rem }
 .history-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-2); flex-wrap: wrap }
@@ -155,7 +159,7 @@ textarea {
   padding: .75rem; background: transparent; color: var(--text); transition: border-color .12s ease;
 }
 .char-count { font-size: .85rem; color: var(--muted); display: flex; justify-content: space-between }
-.row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center }
+.row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; width: 100% }
 .row-stretch { display: flex; gap: .5rem }
 .row-stretch > * { flex: 1 }
 
@@ -206,7 +210,7 @@ select, input[type="text"], input[type="password"] {
 @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
 
 .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); align-items: stretch }
-.compare-grid { grid-auto-rows: 1fr }
+.compare-grid { grid-auto-rows: minmax(220px, auto) }
 @media (max-width: 768px) {
   .compare-grid { grid-template-columns: 1fr }
 }
