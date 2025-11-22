@@ -50,7 +50,7 @@ header {
   backdrop-filter: saturate(160%) blur(6px);
 }
 .header-inner {
-  max-width: 1200px; margin: 0 auto; padding: .75rem 1rem;
+  max-width: 1200px; margin: 0 auto; padding: .75rem 1rem; width: 100%;
   display: flex; align-items: center; gap: 1rem; justify-content: space-between;
 }
 .brand { display: flex; align-items: center; gap: .75rem }
@@ -72,6 +72,7 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem; width: 100%; }
   display: grid; gap: var(--space-5);
   grid-template-columns: 1fr 1.2fr;
   align-items: start;
+  width: 100%;
 }
 @media (max-width: 768px) {
   .grid { grid-template-columns: 1fr }
@@ -82,13 +83,14 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem; width: 100%; }
 
 @media (max-width: 640px) {
   body { font-size: 15px }
-  .header-inner { flex-direction: column; align-items: stretch; gap: .75rem }
+  .header-inner { flex-direction: column; align-items: stretch; gap: .75rem; padding: .75rem .75rem }
   .brand { justify-content: space-between }
   .controls { width: 100%; flex-wrap: wrap; gap: .5rem }
   .controls > * { flex: 1 1 100% }
   .controls select, .controls .btn { width: 100% }
-  main { padding: .75rem 1rem 1.5rem }
-  .card { padding: var(--space-3); width: 100%; max-width: 100%; }
+  main { padding: .75rem .75rem 1.5rem }
+  .grid { width: 100%; max-width: 640px; margin: 0 auto; }
+  .card { padding: var(--space-3); width: 100%; max-width: 640px; margin: 0 auto; }
   .row { gap: var(--space-2) }
   .row .btn { width: 100%; justify-content: center }
   .row select, .row textarea, .row input { width: 100% }
@@ -112,9 +114,8 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem; width: 100%; }
   gap: var(--space-2);
   align-content: start;
   align-items: start;
-  overflow: hidden;
 }
-.card > * { min-width: 0 }
+.card > * { min-width: 0; }
 .card h2 { font-size: 1.1rem; margin-bottom: var(--space-1) }
 .card h3 small { display: block; color: var(--muted); font-weight: 400; margin-top: .15rem }
 .history-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-2); flex-wrap: wrap }
