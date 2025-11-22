@@ -265,6 +265,19 @@ select, input[type="text"], input[type="password"] {
   }
 }
 
+@media (max-width: 640px) {
+  .tooltip[data-tip]:hover::after,
+  .tooltip[data-tip]:focus::after,
+  .tooltip[data-tip]:active::after {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    max-width: min(90vw, 320px);
+    text-align: center;
+    bottom: calc(100% + 10px);
+  }
+}
+
 .list { display: grid; gap: var(--space-3) }
 .item { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-3); display: grid; gap: .35rem }
 .item .meta { font-size: .85rem; color: var(--muted) }
