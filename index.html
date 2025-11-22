@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Li & Entendi — Entenda qualquer documento em português claro</title>
+    <meta name="description" content="Li & Entendi simplifica textos jurídicos brasileiros com IA, destacando cláusulas críticas e explicando termos técnicos em linguagem acessível.">
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+  <body>
+    <a href="#titulo-entrada" class="skip-link">Pular para o conteúdo</a>
+    <header>
+      <div class="header-inner">
+        <div class="brand" aria-label="Li & Entendi">
+          <div class="logo" aria-hidden="true">
+            <svg class="logo-svg" viewBox="0 0 48 48" width="40" height="40" role="img">
+              <defs>
+                <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#2563eb"/>
+                  <stop offset="100%" stop-color="#10b981"/>
+                </linearGradient>
+              </defs>
+              <circle cx="24" cy="24" r="20" fill="none" stroke="url(#lg)" stroke-width="3" class="ring"/>
+              <rect x="13" y="16" width="22" height="18" rx="4" fill="#ffffff" opacity="0.95"/>
+              <path d="M18 26 L22 30 L30 22" stroke="#10b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <strong class="brand-title">Li & Entendi</strong>
+            <div class="tagline">Entenda qualquer documento em português claro</div>
+          </div>
+        </div>
+        <div class="controls">
+          <button id="toggleTheme" class="btn btn-ghost" aria-label="Alternar modo escuro/claro">🌓 Tema</button>
+          <select id="modelSelect" aria-label="Modelo do Gemini" title="Modelo do Gemini">
+            <option value="gemini-3-pro-preview">Gemini 3 Pro (preview)</option>
+            <option value="gemini-1.5-pro-latest">Gemini 1.5 Pro (qualidade)</option>
+            <option value="gemini-1.5-flash-latest">Gemini 1.5 Flash (rápido)</option>
+          </select>
+          <button id="refreshModels" class="btn" title="Atualizar modelos disponíveis">🔄 Atualizar modelos</button>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="grid">
+        <!-- Coluna esquerda: Entrada -->
+        <section class="card" aria-labelledby="titulo-entrada">
+          <h2 id="titulo-entrada">Entrada de texto</h2>
+          <p class="tagline">Limite sugerido: <strong>5000 caracteres</strong></p>
+
+          <div class="row">
+            <label for="exampleSelect">Carregar exemplo</label>
+            <select id="exampleSelect" aria-label="Escolher documento de exemplo">
+              <option value="">— selecione —</option>
+              <option value="exemplos/contrato-aluguel.txt">Contrato de aluguel residencial</option>
+              <option value="exemplos/termo-uso-app.txt">Termo de uso de aplicativo</option>
+              <option value="exemplos/clausula-trabalho.txt">Cláusula de contrato de trabalho</option>
+            </select>
+            <button id="loadExample" class="btn" title="Carregar exemplo">📥 Carregar</button>
+          </div>
+
+          <label for="inputText">Documento</label>
+          <textarea id="inputText" placeholder="Cole aqui o texto do documento para simplificar..." aria-describedby="charInfo" aria-label="Texto do documento"></textarea>
+          <div class="char-count" id="charInfo">
+            <span><span id="charCount">0</span>/5000</span>
+            <span id="charWarn"></span>
+          </div>
+
+          <div class="row" aria-label="Modos de simplificação">
+            <span>Modo:</span>
+            <div class="segmented" role="tablist" aria-label="Escolher nível de simplificação">
+              <button class="mode" data-mode="adolescente" role="tab" aria-selected="false">🎓 Adolescente</button>
+              <button class="mode active" data-mode="claro" role="tab" aria-selected="true">👤 Português Claro</button>
+              <button class="mode" data-mode="tecnico" role="tab" aria-selected="false">📚 Técnico simplificado</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <button id="processBtn" class="btn btn-primary">⚙️ Simplificar com IA</button>
+            <button id="clearBtn" class="btn">🧹 Limpar texto</button>
+          </div>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
+          <div class="history-head">
+            <h3>Histórico (últimos 3)<small>Salvo automaticamente neste navegador</small></h3>
+          </div>
+          <div id="history" class="list" aria-live="polite"></div>
+        </section>
+
+        <!-- Coluna direita: Resultados -->
+        <section class="card" aria-labelledby="titulo-resultados">
+          <h2 id="titulo-resultados">Resultados</h2>
+          <div class="tabs" role="tablist">
+            <div class="tab active" data-target="sec-compare" role="tab" aria-selected="true">
+              <span class="tab-icon">📄</span><span class="tab-label">Comparação</span>
+            </div>
+            <div class="tab" data-target="sec-resumo" role="tab">
+              <span class="tab-icon">🧭</span><span class="tab-label">Resumo</span>
+            </div>
+            <div class="tab" data-target="sec-clausulas" role="tab">
+              <span class="tab-icon">⚠️</span><span class="tab-label">Cláusulas</span>
+            </div>
+            <div class="tab" data-target="sec-glossario" role="tab">
+              <span class="tab-icon">📘</span><span class="tab-label">Glossário</span>
+            </div>
+            <div class="tab" data-target="sec-atencao" role="tab">
+              <span class="tab-icon">❗</span><span class="tab-label">Atenção</span>
+            </div>
+            <div class="tab" data-target="sec-perguntas" role="tab">
+              <span class="tab-icon">💡</span><span class="tab-label">Perguntas</span>
+            </div>
+          </div>
+
+          <div id="sec-compare" class="section active">
+            <div class="compare-grid">
+              <div class="panel" aria-labelledby="lbl-original">
+                <h3 id="lbl-original">Original</h3>
+                <div id="originalOut" class="content" aria-live="polite"></div>
+              </div>
+              <div class="panel" aria-labelledby="lbl-simplificado">
+                <h3 id="lbl-simplificado">Simplificado</h3>
+                <div id="simplificadoOut" class="content" aria-live="polite"></div>
+              </div>
+            </div>
+            <div class="row" style="margin-top:.75rem">
+              <button id="copySimplificado" class="btn btn-secondary">📋 Copiar simplificado</button>
+              <button id="shareResultado" class="btn">🔗 Compartilhar resultado</button>
+            </div>
+          </div>
+
+          <div id="sec-resumo" class="section">
+            <div id="resumoList" class="list"></div>
+          </div>
+
+          <div id="sec-clausulas" class="section">
+            <div id="clausulasList" class="list"></div>
+          </div>
+
+          <div id="sec-glossario" class="section">
+            <div id="glossarioList" class="list"></div>
+          </div>
+
+          <div id="sec-atencao" class="section">
+            <div id="atencaoList" class="list"></div>
+          </div>
+
+          <div id="sec-perguntas" class="section">
+            <div id="perguntasList" class="list"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="loading" class="loading-overlay" aria-live="assertive" aria-busy="true">
+      <div class="card" style="text-align:center">
+        <div class="spinner" style="margin:0 auto"></div>
+        <p style="margin-top:.5rem">Processando com IA…</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>Li & Entendi • Feito com 💙 para a Imersão Dev Alura + Google 2025 • <a href="https://github.com/" target="_blank" rel="noopener">Repositório</a></p>
+    </footer>
+
+    <script src="assets/js/app.js" defer></script>
+  </body>
+</html>
