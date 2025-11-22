@@ -31,14 +31,11 @@ const saveKeyBtn = document.getElementById('saveKey');
 const clearKeyBtn = document.getElementById('clearKey');
 const closeKeyBtn = document.getElementById('closeKey');
 const toggleTheme = document.getElementById('toggleTheme');
-const toggleMenuBtn = document.getElementById('toggleMenu');
-const headerControls = document.getElementById('headerControls');
 const loadingOverlay = document.getElementById('loading');
 const exampleSelect = document.getElementById('exampleSelect');
 const loadExampleBtn = document.getElementById('loadExample');
 const modelSelect = document.getElementById('modelSelect');
 const refreshModelsBtn = document.getElementById('refreshModels');
-const mobileMenuQuery = window.matchMedia('(max-width: 640px)');
 
 (function init() {
   const savedTheme = localStorage.getItem('leiClara.theme');
@@ -67,14 +64,8 @@ clearKeyBtn?.addEventListener('click', removeApiKey);
 closeKeyBtn?.addEventListener('click', () => toggleKeyModal(false));
 keyModal?.addEventListener('click', (ev) => { if (ev.target === keyModal) toggleKeyModal(false); });
 document.addEventListener('keydown', (ev) => {
-  if (ev.key === 'Escape') {
-    if (keyModal && !keyModal.hidden) {
-      toggleKeyModal(false);
-      return;
-    }
-    if (mobileMenuQuery.matches && headerControls?.classList.contains('open')) {
-      toggleMenu(false);
-    }
+  if (ev.key === 'Escape' && keyModal && !keyModal.hidden) {
+    toggleKeyModal(false);
   }
 });
 toggleTheme.addEventListener('click', () => {
@@ -86,29 +77,6 @@ modelSelect.addEventListener('change', () => {
   localStorage.setItem('leiClara.model', modelSelect.value);
 });
 refreshModelsBtn.addEventListener('click', refreshModels);
-toggleMenuBtn?.addEventListener('click', () => {
-  const expanded = toggleMenuBtn.getAttribute('aria-expanded') === 'true';
-  toggleMenu(!expanded);
-});
-document.addEventListener('click', (ev) => {
-  if (!mobileMenuQuery.matches) return;
-  if (!headerControls?.classList.contains('open')) return;
-  const isToggle = toggleMenuBtn?.contains(ev.target);
-  const isInsideControls = headerControls.contains(ev.target);
-  if (!isToggle && !isInsideControls) {
-    toggleMenu(false);
-  }
-});
-const syncMenuToViewport = () => {
-  if (!mobileMenuQuery.matches) {
-    toggleMenu(false);
-  }
-};
-if (typeof mobileMenuQuery.addEventListener === 'function') {
-  mobileMenuQuery.addEventListener('change', syncMenuToViewport);
-} else if (typeof mobileMenuQuery.addListener === 'function') {
-  mobileMenuQuery.addListener(syncMenuToViewport);
-}
 loadExampleBtn.addEventListener('click', async () => {
   const path = exampleSelect.value;
   if (!path) return;
@@ -135,13 +103,6 @@ function updateCharInfo() {
     charWarn.textContent = '';
     processBtn.disabled = false;
   }
-}
-
-function toggleMenu(show) {
-  if (!toggleMenuBtn || !headerControls) return;
-  const shouldShow = typeof show === 'boolean' ? show : !headerControls.classList.contains('open');
-  headerControls.classList.toggle('open', shouldShow);
-  toggleMenuBtn.setAttribute('aria-expanded', shouldShow ? 'true' : 'false');
 }
 
 function setMode(btn) {
