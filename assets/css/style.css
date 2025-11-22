@@ -112,6 +112,10 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem; width: 100%; box-sizing
   .tab { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: .8rem; padding: .5rem .25rem; }
   .tab-label { font-size: .8rem; }
   .tab-icon { font-size: 1rem; }
+  .compare-grid { gap: var(--space-2); }
+  .panel { padding: .5rem; min-height: 150px; }
+  .panel h3 { font-size: .85rem; padding: .15rem .4rem; }
+  .panel .content { font-size: .85rem; }
   textarea, select, input { width: 100%; max-width: 100%; box-sizing: border-box; font-size: .9rem; }
   label { max-width: 100%; word-wrap: break-word; }
   h2, h3 { word-wrap: break-word; max-width: 100%; }
@@ -233,14 +237,14 @@ select, input[type="text"], input[type="password"] {
 .section.active { display: block; animation: fade .25s ease }
 @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
 
-.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); align-items: stretch }
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); align-items: stretch; width: 100%; box-sizing: border-box; }
 .compare-grid { grid-auto-rows: 1fr }
 @media (max-width: 768px) {
   .compare-grid { grid-template-columns: 1fr }
 }
-.panel { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-3); min-height: 200px; height: 100%; display: flex; flex-direction: column; gap: var(--space-2); background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,.04) }
-.panel h3 { font-size: .9rem; color: var(--primary); margin: 0; display: inline-block; padding: .2rem .5rem; border-radius: .5rem; background: rgba(37,99,235,.12) }
-.panel .content { flex: 1; min-height: 0; white-space: pre-wrap; overflow-wrap: anywhere }
+.panel { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-3); min-height: 200px; height: 100%; display: flex; flex-direction: column; gap: var(--space-2); background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,.04); width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+.panel h3 { font-size: .9rem; color: var(--primary); margin: 0; display: inline-block; padding: .2rem .5rem; border-radius: .5rem; background: rgba(37,99,235,.12); max-width: 100%; box-sizing: border-box; }
+.panel .content { flex: 1; min-height: 0; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: auto; }
 
 .skeleton { position: relative; overflow: hidden }
 .skeleton::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); animation: shimmer 1.2s infinite }
