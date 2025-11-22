@@ -24,6 +24,12 @@ const perguntasList = document.getElementById('perguntasList');
 const copySimplificado = document.getElementById('copySimplificado');
 const shareResultado = document.getElementById('shareResultado');
 const historyEl = document.getElementById('history');
+const openKeyModalBtn = document.getElementById('openKeyModal');
+const keyModal = document.getElementById('keyModal');
+const apiKeyInput = document.getElementById('apiKeyInput');
+const saveKeyBtn = document.getElementById('saveKey');
+const clearKeyBtn = document.getElementById('clearKey');
+const closeKeyBtn = document.getElementById('closeKey');
 const toggleTheme = document.getElementById('toggleTheme');
 const loadingOverlay = document.getElementById('loading');
 const exampleSelect = document.getElementById('exampleSelect');
@@ -37,7 +43,12 @@ const refreshModelsBtn = document.getElementById('refreshModels');
   const savedModel = localStorage.getItem('leiClara.model') || DEFAULT_MODEL;
   if (modelSelect) modelSelect.value = savedModel;
   renderHistory();
-  loadEnv().then(() => { const hasKey = !!(localStorage.getItem('leiClara.apiKey') || ''); if (hasKey) refreshModels(); });
+  updateApiKeyIndicator();
+  loadEnv().then(() => {
+    const hasKey = !!(localStorage.getItem('leiClara.apiKey') || '');
+    updateApiKeyIndicator();
+    if (hasKey) refreshModels();
+  });
 })();
 
 inputText.addEventListener('input', updateCharInfo);
@@ -47,6 +58,16 @@ modeBtns.forEach(btn => btn.addEventListener('click', () => setMode(btn)));
 tabs.forEach(tab => tab.addEventListener('click', () => setTab(tab)));
 copySimplificado.addEventListener('click', copySimplifiedText);
 shareResultado.addEventListener('click', shareTextResult);
+openKeyModalBtn?.addEventListener('click', () => toggleKeyModal(true));
+saveKeyBtn?.addEventListener('click', saveApiKey);
+clearKeyBtn?.addEventListener('click', removeApiKey);
+closeKeyBtn?.addEventListener('click', () => toggleKeyModal(false));
+keyModal?.addEventListener('click', (ev) => { if (ev.target === keyModal) toggleKeyModal(false); });
+document.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape' && keyModal && !keyModal.hidden) {
+    toggleKeyModal(false);
+  }
+});
 toggleTheme.addEventListener('click', () => {
   const isDark = document.body.getAttribute('data-theme') === 'dark';
   document.body.setAttribute('data-theme', isDark ? '' : 'dark');
@@ -333,6 +354,60 @@ function renderResults(original, r) {
       <div class="item-header">💡 Pergunta sugerida</div>
       ${formatTextBlock(x)}
     </div>`).join('');
+}
+
+function toggleKeyModal(show) {
+  if (!keyModal) return;
+  keyModal.hidden = !show;
+  keyModal.setAttribute('aria-hidden', show ? 'false' : 'true');
+  document.body.classList.toggle('modal-open', show);
+  if (show) {
+    const existing = (localStorage.getItem('leiClara.apiKey') || '').trim();
+    if (apiKeyInput) {
+      apiKeyInput.value = existing;
+      setTimeout(() => apiKeyInput.focus(), 50);
+    }
+  } else if (apiKeyInput) {
+    apiKeyInput.blur();
+  }
+}
+
+function saveApiKey() {
+  if (!apiKeyInput) return;
+  const value = apiKeyInput.value.trim();
+  if (!value) {
+    alert('Informe uma API Key válida.');
+    apiKeyInput.focus();
+    return;
+  }
+  localStorage.setItem('leiClara.apiKey', value);
+  updateApiKeyIndicator();
+  toggleKeyModal(false);
+  refreshModels();
+}
+
+function removeApiKey() {
+  const current = (localStorage.getItem('leiClara.apiKey') || '').trim();
+  if (!current) {
+    alert('Nenhuma API Key salva.');
+    return;
+  }
+  const confirmed = window.confirm('Remover a API Key salva neste navegador?');
+  if (!confirmed) return;
+  localStorage.removeItem('leiClara.apiKey');
+  if (apiKeyInput) apiKeyInput.value = '';
+  updateApiKeyIndicator();
+}
+
+function updateApiKeyIndicator() {
+  const hasKey = !!(localStorage.getItem('leiClara.apiKey') || '').trim();
+  if (openKeyModalBtn) {
+    openKeyModalBtn.textContent = hasKey ? '🔑 API Key ✓' : '🔑 API Key';
+    openKeyModalBtn.setAttribute('title', hasKey ? 'Editar ou remover sua API Key do Gemini' : 'Adicionar sua API Key do Gemini');
+  }
+  if (clearKeyBtn) {
+    clearKeyBtn.disabled = !hasKey;
+  }
 }
 
 function highlightAll(text, r) {

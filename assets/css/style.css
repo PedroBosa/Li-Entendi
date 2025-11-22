@@ -65,6 +65,8 @@ header {
 .input-key { display: flex; align-items: center; gap: .5rem }
 .input-key input { width: 260px }
 
+body.modal-open { overflow: hidden }
+
 main { max-width: 1200px; margin: 0 auto; padding: 1rem }
 .grid {
   display: grid; gap: var(--space-5);
@@ -114,6 +116,35 @@ main { max-width: 1200px; margin: 0 auto; padding: 1rem }
 .history-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-2); flex-wrap: wrap }
 .history-head h3 { margin: 0 }
 .history-empty { color: var(--muted); font-size: .9rem }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, .65);
+  display: grid;
+  place-items: center;
+  z-index: 60;
+  padding: 1.5rem;
+}
+.modal[hidden] { display: none }
+.modal-card {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: min(420px, 100%);
+  padding: var(--space-4);
+  box-shadow: 0 20px 60px rgba(15,23,42,.35);
+  display: grid;
+  gap: var(--space-3);
+}
+.modal-card input {
+  width: 100%;
+  border-radius: 10px;
+}
+.modal-card .meta { font-size: .85rem }
+.modal-actions { justify-content: flex-end }
+.modal-actions .btn { flex: 0 0 auto }
 
 hr { border: none; border-top: 1px solid var(--border); margin: var(--space-3) 0 }
 

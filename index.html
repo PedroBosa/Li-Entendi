@@ -38,6 +38,7 @@
             <option value="gemini-1.5-flash-latest">Gemini 1.5 Flash (rápido)</option>
           </select>
           <button id="refreshModels" class="btn" title="Atualizar modelos disponíveis">🔄 Atualizar modelos</button>
+          <button id="openKeyModal" class="btn" type="button" title="Adicionar ou editar sua API Key do Gemini">🔑 API Key</button>
         </div>
       </div>
     </header>
@@ -150,6 +151,21 @@
         </section>
       </div>
     </main>
+
+    <div id="keyModal" class="modal" hidden aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="keyModalTitle">
+        <h2 id="keyModalTitle">Configurar API Key</h2>
+        <p class="meta">Fica salva somente neste navegador. Use uma chave válida do Google AI Studio.</p>
+        <label for="apiKeyInput">API Key do Gemini</label>
+        <input id="apiKeyInput" type="password" autocomplete="off" placeholder="AIza..." aria-describedby="apiKeyHelp">
+        <span id="apiKeyHelp" class="meta">Você pode visualizar e gerar uma nova chave em aistudio.google.com.</span>
+        <div class="row modal-actions">
+          <button id="saveKey" type="button" class="btn btn-primary">Salvar</button>
+          <button id="clearKey" type="button" class="btn btn-danger">Remover</button>
+          <button id="closeKey" type="button" class="btn btn-ghost">Fechar</button>
+        </div>
+      </div>
+    </div>
 
     <div id="loading" class="loading-overlay" aria-live="assertive" aria-busy="true">
       <div class="card" style="text-align:center">
