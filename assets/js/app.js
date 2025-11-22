@@ -30,8 +30,6 @@ const apiKeyInput = document.getElementById('apiKeyInput');
 const saveKeyBtn = document.getElementById('saveKey');
 const clearKeyBtn = document.getElementById('clearKey');
 const closeKeyBtn = document.getElementById('closeKey');
-const menuToggle = document.getElementById('menuToggle');
-const menuPanel = document.getElementById('menuPanel');
 const toggleTheme = document.getElementById('toggleTheme');
 const loadingOverlay = document.getElementById('loading');
 const exampleSelect = document.getElementById('exampleSelect');
@@ -65,13 +63,9 @@ saveKeyBtn?.addEventListener('click', saveApiKey);
 clearKeyBtn?.addEventListener('click', removeApiKey);
 closeKeyBtn?.addEventListener('click', () => toggleKeyModal(false));
 keyModal?.addEventListener('click', (ev) => { if (ev.target === keyModal) toggleKeyModal(false); });
-menuToggle?.addEventListener('click', toggleMenu);
 document.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape' && keyModal && !keyModal.hidden) {
     toggleKeyModal(false);
-  }
-  if (ev.key === 'Escape' && menuPanel?.classList.contains('open')) {
-    toggleMenu();
   }
 });
 toggleTheme.addEventListener('click', () => {
@@ -81,14 +75,8 @@ toggleTheme.addEventListener('click', () => {
 });
 modelSelect.addEventListener('change', () => {
   localStorage.setItem('leiClara.model', modelSelect.value);
-  if (menuPanel?.classList.contains('open')) toggleMenu();
 });
 refreshModelsBtn.addEventListener('click', refreshModels);
-menuPanel?.addEventListener('click', (ev) => {
-  if (ev.target.tagName === 'BUTTON' && ev.target !== menuToggle) {
-    toggleMenu();
-  }
-});
 loadExampleBtn.addEventListener('click', async () => {
   const path = exampleSelect.value;
   if (!path) return;
@@ -373,9 +361,6 @@ function toggleKeyModal(show) {
   keyModal.hidden = !show;
   keyModal.setAttribute('aria-hidden', show ? 'false' : 'true');
   document.body.classList.toggle('modal-open', show);
-  if (show && menuPanel?.classList.contains('open')) {
-    toggleMenu();
-  }
   if (show) {
     const existing = (localStorage.getItem('leiClara.apiKey') || '').trim();
     if (apiKeyInput) {
@@ -423,14 +408,6 @@ function updateApiKeyIndicator() {
   if (clearKeyBtn) {
     clearKeyBtn.disabled = !hasKey;
   }
-}
-
-function toggleMenu() {
-  if (!menuToggle || !menuPanel) return;
-  const isOpen = menuPanel.classList.toggle('open');
-  menuToggle.setAttribute('aria-expanded', String(isOpen));
-  menuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
-  if (!isOpen) menuToggle.focus();
 }
 
 function highlightAll(text, r) {
